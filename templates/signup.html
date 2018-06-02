@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<a href="..">Go back</a>
+
+
+<h3>Register new User</h3>
+{% if message %}
+    <h4>{{ message }}</h4>
+{% else %}
+    <br>
+{% endif %}
+
+<form action="" method="post">
+    Pitt Email (abc12): <input type="text" name="user"  />
+    <br>
+    Password: <input type="text" name="pass"  />
+    <br>
+    Confirm Password: <input type="text" name="pass"  />
+    <br>
+    <input type="submit" value="submit"  />
+</form>
+
+{% endblock %}
