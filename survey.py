@@ -4,6 +4,7 @@ import random
 from flask import Flask, request, url_for, redirect, session, render_template, flash
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from postmastergeneral import PostMasterGeneral
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///survey.db'
@@ -11,6 +12,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 regex = '[a-zA-Z]{3,6}[0-9]{1,3}'
+
+ronaldStroman = PostMasterGeneral()
 
 
 class User(db.Model):
@@ -27,7 +30,8 @@ class User(db.Model):
     def generate_reg_code(self):
         r = random.randint(0, 16777216)
         self.reg_code = hex(r)[2:] # make hex and remove the '0x' at the beginning
-        self.reg_code += self.id 
+        self.reg_code += str(self.id)
+        ronaldStroman.sendRegistrationEmail(self.name + '@pitt.edu', self.reg_code)
 
 
 
@@ -88,14 +92,12 @@ def confirm(code):
     user = User.query.filter_by(id=user_id).first()
     if user != None:
         if code[:7] == user.reg_code:
-            return redirect(url_for("default"))
+            return render_template("success.html")
             
         else:
-            print("no")
-            return redirect(url_for("login"))
+            return render_template("failure.html")
     else:
-        print("no")
-        return redirect(url_for("login"))
+        return render_template("failure.html")
 
         
 def logged_in():
@@ -108,6 +110,7 @@ def logged_in():
         return True
     else:
         return False
+
         
 
 
