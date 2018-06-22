@@ -1,0 +1,8 @@
+# Dan's vim trash
+*.sw?
+
+# Pythons trash
+*.pyc
+
+# Secret Keys
+*.json

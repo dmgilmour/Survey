@@ -69,16 +69,16 @@ def register():
         name = request.form["user"]
         if not User.query.filter_by(name=name).all():
 
-            #reg_compile = re.compile(name)
-            #print(name)
-            #if reg_compile.search(regex, 0) == None:
-            #    message = "Incorrect email format"
-            #else:
+            reg_compile = re.compile(name)
+            print(name)
+            if reg_compile.search(regex, 0) == None:
+                message = "Incorrect email format"
+            else:
 
-            db.session.add(User(request.form["user"], request.form["pass"]))
-            User.query.filter_by(name=name).first().generate_reg_code()
-            db.session.commit()
-            message = "Regristration link sent"
+                db.session.add(User(request.form["user"], request.form["pass"]))
+                User.query.filter_by(name=name).first().generate_reg_code()
+                db.session.commit()
+                message = "Regristration link sent"
 
         else:
             message = "Name in use"
@@ -88,10 +88,10 @@ def register():
 
 @app.route("/register/<code>/")
 def confirm(code):
-    user_id = int(code[6:])
+    user_id = int(code[6:]) # grab userid from 7th char on
     user = User.query.filter_by(id=user_id).first()
     if user != None:
-        if code[:7] == user.reg_code:
+        if code[:7] == user.reg_code: # get the registration code without user id and verify
             return render_template("success.html")
             
         else:
