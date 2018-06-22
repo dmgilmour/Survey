@@ -4,5 +4,8 @@
 # Pythons trash
 *.pyc
 
+# Unneccessary dbs
+*.db
+
 # Secret Keys
 *.json
