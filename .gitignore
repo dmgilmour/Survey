@@ -1,8 +1,12 @@
 # Dan's vim trash
 *.sw?
 
+# virtual environments
+venv/
+
 # Pythons trash
-*.pyc
+*.py[cod]
+__pycache__/
 
 # Unneccessary dbs
 *.db
